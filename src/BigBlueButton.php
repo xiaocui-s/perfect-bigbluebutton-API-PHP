@@ -387,6 +387,7 @@ class BigBlueButton
             curl_close($ch);
 
             if (strpos($data,'404')) {
+                //仅适用laravel框架
                 abort('404');
             }
             try {
