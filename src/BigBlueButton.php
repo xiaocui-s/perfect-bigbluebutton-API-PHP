@@ -386,13 +386,9 @@ class BigBlueButton
             }
             curl_close($ch);
 
-            if (strpos($data,'404')) {
-                //仅适用laravel框架
-                abort('404');
-            }
             try {
                 return new SimpleXMLElement($data);
-            } catch (\RuntimeException $e) {
+            } catch (\Exception $e) {
                 $dom=new \DOMDocument();
 
                 //建立<response>元素
@@ -404,7 +400,7 @@ class BigBlueButton
                 //建立<returncode>元素并将其作为<response>的子元素
                 $code=$dom->createElement('returncode');
                 $response->appendChild($code);
-                $codeTxt=$dom->createTextNode('ERROR');
+                $codeTxt=$dom->createTextNode('BBB_ERROR');
                 $code->appendChild($codeTxt);
 
                 //建立recordings节点
