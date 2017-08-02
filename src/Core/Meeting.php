@@ -107,6 +107,11 @@ class Meeting
     private $hasUserJoined;
 
     /**
+     * @var array
+     */
+    private $metas;
+
+    /**
      * Meeting constructor.
      * @param $xml \SimpleXMLElement
      */
@@ -128,6 +133,10 @@ class Meeting
         $this->videoCount            = intval($xml->videoCount);
         $this->duration              = intval($xml->duration);
         $this->hasUserJoined         = $xml->hasUserJoined->__toString() == 'true';
+
+        foreach ($xml->metadata->children() as $meta) {
+            $this->metas[$meta->getName()] = $meta->__toString();
+        }
     }
 
     /**
@@ -256,5 +265,13 @@ class Meeting
     public function hasUserJoined()
     {
         return $this->hasUserJoined;
+    }
+
+    /**
+     * @return array
+     */
+    public function getMetas()
+    {
+        return $this->metas;
     }
 }
